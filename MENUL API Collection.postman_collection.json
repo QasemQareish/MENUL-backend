@@ -1,0 +1,1797 @@
+{
+  "info": {
+    "name": "MENUL API Collection",
+    "description": "Postman collection aligned with current MENUL backend routes (Django DRF).",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+  },
+  "auth": {
+    "type": "bearer",
+    "bearer": [
+      {
+        "key": "token",
+        "value": "{{access_token}}",
+        "type": "string"
+      }
+    ]
+  },
+  "event": [
+    {
+      "listen": "prerequest",
+      "script": {
+        "type": "text/javascript",
+        "exec": [
+          "// Keep base URL easy to change per environment.",
+          "if (!pm.collectionVariables.get('base_url')) pm.collectionVariables.set('base_url', 'http://127.0.0.1:8000');"
+        ]
+      }
+    }
+  ],
+  "variable": [
+    {
+      "key": "base_url",
+      "value": "{{base_protocol}}://{{base_host}}:{{base_port}}"
+    },
+    {
+      "key": "access_token",
+      "value": ""
+    },
+    {
+      "key": "refresh_token",
+      "value": ""
+    },
+    {
+      "key": "user_id",
+      "value": "1"
+    },
+    {
+      "key": "restaurant_id",
+      "value": "1"
+    },
+    {
+      "key": "branch_id",
+      "value": "1"
+    },
+    {
+      "key": "table_id",
+      "value": "1"
+    },
+    {
+      "key": "kitchen_id",
+      "value": "1"
+    },
+    {
+      "key": "category_id",
+      "value": "1"
+    },
+    {
+      "key": "item_id",
+      "value": "1"
+    },
+    {
+      "key": "session_id",
+      "value": "00000000-0000-0000-0000-000000000000"
+    },
+    {
+      "key": "order_item_id",
+      "value": "1"
+    },
+    {
+      "key": "uidb64",
+      "value": ""
+    },
+    {
+      "key": "token",
+      "value": ""
+    },
+    {
+      "key": "base_protocol",
+      "value": "http"
+    },
+    {
+      "key": "base_host",
+      "value": "127.0.0.1"
+    },
+    {
+      "key": "base_port",
+      "value": "8000"
+    }
+  ],
+  "item": [
+    {
+      "name": "Authentication",
+      "item": [
+        {
+          "name": "Register",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "url": {
+              "raw": "{{base_url}}/api/auth/register/",
+              "protocol": "{{base_protocol}}",
+              "host": [
+                "{{base_host}}"
+              ],
+              "port": "{{base_port}}",
+              "path": [
+                "api",
+                "auth",
+                "register"
+              ]
+            },
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"username\": \"owner_demo\",\n  \"email\": \"owner@example.com\",\n  \"password\": \"StrongPass123!\"\n}"
+            },
+            "auth": {
+              "type": "noauth"
+            }
+          },
+          "response": [],
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "const data = pm.response.json();",
+                  "if (data.access) pm.collectionVariables.set('access_token', data.access);",
+                  "if (data.refresh) pm.collectionVariables.set('refresh_token', data.refresh);"
+                ]
+              }
+            }
+          ]
+        },
+        {
+          "name": "Login",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "url": {
+              "raw": "{{base_url}}/api/auth/login/",
+              "protocol": "{{base_protocol}}",
+              "host": [
+                "{{base_host}}"
+              ],
+              "port": "{{base_port}}",
+              "path": [
+                "api",
+                "auth",
+                "login"
+              ]
+            },
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"username_or_email\": \"owner_demo\",\n  \"password\": \"StrongPass123!\"\n}"
+            },
+            "auth": {
+              "type": "noauth"
+            }
+          },
+          "response": [],
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "const data = pm.response.json();",
+                  "if (data.access) pm.collectionVariables.set('access_token', data.access);",
+                  "if (data.refresh) pm.collectionVariables.set('refresh_token', data.refresh);"
+                ]
+              }
+            }
+          ]
+        },
+        {
+          "name": "Refresh Token",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "url": {
+              "raw": "{{base_url}}/api/auth/login/refresh/",
+              "protocol": "{{base_protocol}}",
+              "host": [
+                "{{base_host}}"
+              ],
+              "port": "{{base_port}}",
+              "path": [
+                "api",
+                "auth",
+                "login",
+                "refresh"
+              ]
+            },
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"refresh\": \"{{refresh_token}}\"\n}"
+            },
+            "auth": {
+              "type": "noauth"
+            }
+          },
+          "response": [],
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "const data = pm.response.json();",
+                  "if (data.access) pm.collectionVariables.set('access_token', data.access);"
+                ]
+              }
+            }
+          ]
+        },
+        {
+          "name": "Logout",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "url": {
+              "raw": "{{base_url}}/api/auth/logout/",
+              "protocol": "{{base_protocol}}",
+              "host": [
+                "{{base_host}}"
+              ],
+              "port": "{{base_port}}",
+              "path": [
+                "api",
+                "auth",
+                "logout"
+              ]
+            },
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"refresh\": \"{{refresh_token}}\"\n}"
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Me",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{base_url}}/api/auth/me/",
+              "protocol": "{{base_protocol}}",
+              "host": [
+                "{{base_host}}"
+              ],
+              "port": "{{base_port}}",
+              "path": [
+                "api",
+                "auth",
+                "me"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Change Password",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "url": {
+              "raw": "{{base_url}}/api/auth/change-password/",
+              "protocol": "{{base_protocol}}",
+              "host": [
+                "{{base_host}}"
+              ],
+              "port": "{{base_port}}",
+              "path": [
+                "api",
+                "auth",
+                "change-password"
+              ]
+            },
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"old_password\": \"StrongPass123!\",\n  \"new_password\": \"StrongPass123!NEW\"\n}"
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Password Reset Request",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "url": {
+              "raw": "{{base_url}}/api/auth/password-reset-request/",
+              "protocol": "{{base_protocol}}",
+              "host": [
+                "{{base_host}}"
+              ],
+              "port": "{{base_port}}",
+              "path": [
+                "api",
+                "auth",
+                "password-reset-request"
+              ]
+            },
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"email\": \"owner@example.com\"\n}"
+            },
+            "auth": {
+              "type": "noauth"
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Password Reset Confirm",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "url": {
+              "raw": "{{base_url}}/api/auth/password-reset-confirm/{{uidb64}}/{{token}}/",
+              "protocol": "{{base_protocol}}",
+              "host": [
+                "{{base_host}}"
+              ],
+              "port": "{{base_port}}",
+              "path": [
+                "api",
+                "auth",
+                "password-reset-confirm",
+                "{{uidb64}}",
+                "{{token}}"
+              ]
+            },
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"new_password\": \"AnotherPass123!\"\n}"
+            },
+            "auth": {
+              "type": "noauth"
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Verify Email",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{base_url}}/api/auth/verify-email/{{uidb64}}/{{token}}/",
+              "protocol": "{{base_protocol}}",
+              "host": [
+                "{{base_host}}"
+              ],
+              "port": "{{base_port}}",
+              "path": [
+                "api",
+                "auth",
+                "verify-email",
+                "{{uidb64}}",
+                "{{token}}"
+              ]
+            },
+            "auth": {
+              "type": "noauth"
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Phone Login",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "url": {
+              "raw": "{{base_url}}/api/auth/phone-login/",
+              "protocol": "{{base_protocol}}",
+              "host": [
+                "{{base_host}}"
+              ],
+              "port": "{{base_port}}",
+              "path": [
+                "api",
+                "auth",
+                "phone-login"
+              ]
+            },
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"phone\": \"+962700000000\"\n}"
+            },
+            "auth": {
+              "type": "noauth"
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Verify OTP",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "url": {
+              "raw": "{{base_url}}/api/auth/verify-otp/",
+              "protocol": "{{base_protocol}}",
+              "host": [
+                "{{base_host}}"
+              ],
+              "port": "{{base_port}}",
+              "path": [
+                "api",
+                "auth",
+                "verify-otp"
+              ]
+            },
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"phone\": \"+962700000000\",\n  \"otp\": \"123456\"\n}"
+            },
+            "auth": {
+              "type": "noauth"
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Enable 2FA",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "url": {
+              "raw": "{{base_url}}/api/auth/enable-2fa/",
+              "protocol": "{{base_protocol}}",
+              "host": [
+                "{{base_host}}"
+              ],
+              "port": "{{base_port}}",
+              "path": [
+                "api",
+                "auth",
+                "enable-2fa"
+              ]
+            },
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"password\": \"StrongPass123!\"\n}"
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Verify 2FA",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "url": {
+              "raw": "{{base_url}}/api/auth/verify-2fa/",
+              "protocol": "{{base_protocol}}",
+              "host": [
+                "{{base_host}}"
+              ],
+              "port": "{{base_port}}",
+              "path": [
+                "api",
+                "auth",
+                "verify-2fa"
+              ]
+            },
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"code\": \"123456\"\n}"
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Google Login",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "url": {
+              "raw": "{{base_url}}/api/auth/google-login/",
+              "protocol": "{{base_protocol}}",
+              "host": [
+                "{{base_host}}"
+              ],
+              "port": "{{base_port}}",
+              "path": [
+                "api",
+                "auth",
+                "google-login"
+              ]
+            },
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"token\": \"GOOGLE_ID_TOKEN\"\n}"
+            },
+            "auth": {
+              "type": "noauth"
+            }
+          },
+          "response": []
+        }
+      ]
+    },
+    {
+      "name": "Users",
+      "item": [
+        {
+          "name": "List Users",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{base_url}}/api/accounts/users/",
+              "protocol": "{{base_protocol}}",
+              "host": [
+                "{{base_host}}"
+              ],
+              "port": "{{base_port}}",
+              "path": [
+                "api",
+                "accounts",
+                "users"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Create User",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "url": {
+              "raw": "{{base_url}}/api/accounts/users/",
+              "protocol": "{{base_protocol}}",
+              "host": [
+                "{{base_host}}"
+              ],
+              "port": "{{base_port}}",
+              "path": [
+                "api",
+                "accounts",
+                "users"
+              ]
+            },
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"username\": \"waiter_demo\",\n  \"email\": \"waiter@example.com\",\n  \"password\": \"StrongPass123!\",\n  \"role\": \"waiter\",\n  \"branch\": \"{{branch_id}}\"\n}"
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Retrieve User",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{base_url}}/api/accounts/users/{{user_id}}/",
+              "protocol": "{{base_protocol}}",
+              "host": [
+                "{{base_host}}"
+              ],
+              "port": "{{base_port}}",
+              "path": [
+                "api",
+                "accounts",
+                "users",
+                "{{user_id}}"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Update User",
+          "request": {
+            "method": "PATCH",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "url": {
+              "raw": "{{base_url}}/api/accounts/users/{{user_id}}/",
+              "protocol": "{{base_protocol}}",
+              "host": [
+                "{{base_host}}"
+              ],
+              "port": "{{base_port}}",
+              "path": [
+                "api",
+                "accounts",
+                "users",
+                "{{user_id}}"
+              ]
+            },
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"email\": \"updated_user@example.com\"\n}"
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Delete User",
+          "request": {
+            "method": "DELETE",
+            "header": [],
+            "url": {
+              "raw": "{{base_url}}/api/accounts/users/{{user_id}}/",
+              "protocol": "{{base_protocol}}",
+              "host": [
+                "{{base_host}}"
+              ],
+              "port": "{{base_port}}",
+              "path": [
+                "api",
+                "accounts",
+                "users",
+                "{{user_id}}"
+              ]
+            }
+          },
+          "response": []
+        }
+      ]
+    },
+    {
+      "name": "Restaurants",
+      "item": [
+        {
+          "name": "List Restaurants",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{base_url}}/api/restaurants/restaurants/",
+              "protocol": "{{base_protocol}}",
+              "host": [
+                "{{base_host}}"
+              ],
+              "port": "{{base_port}}",
+              "path": [
+                "api",
+                "restaurants",
+                "restaurants"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Create Restaurant",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "url": {
+              "raw": "{{base_url}}/api/restaurants/restaurants/",
+              "protocol": "{{base_protocol}}",
+              "host": [
+                "{{base_host}}"
+              ],
+              "port": "{{base_port}}",
+              "path": [
+                "api",
+                "restaurants",
+                "restaurants"
+              ]
+            },
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"name\": \"Demo Restaurant\",\n  \"default_language\": \"en\",\n  \"primary_color\": \"#1e88e5\"\n}"
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Retrieve Restaurant",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{base_url}}/api/restaurants/restaurants/{{restaurant_id}}/",
+              "protocol": "{{base_protocol}}",
+              "host": [
+                "{{base_host}}"
+              ],
+              "port": "{{base_port}}",
+              "path": [
+                "api",
+                "restaurants",
+                "restaurants",
+                "{{restaurant_id}}"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Update Restaurant",
+          "request": {
+            "method": "PATCH",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "url": {
+              "raw": "{{base_url}}/api/restaurants/restaurants/{{restaurant_id}}/",
+              "protocol": "{{base_protocol}}",
+              "host": [
+                "{{base_host}}"
+              ],
+              "port": "{{base_port}}",
+              "path": [
+                "api",
+                "restaurants",
+                "restaurants",
+                "{{restaurant_id}}"
+              ]
+            },
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"name\": \"Demo Restaurant Updated\"\n}"
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Delete Restaurant",
+          "request": {
+            "method": "DELETE",
+            "header": [],
+            "url": {
+              "raw": "{{base_url}}/api/restaurants/restaurants/{{restaurant_id}}/",
+              "protocol": "{{base_protocol}}",
+              "host": [
+                "{{base_host}}"
+              ],
+              "port": "{{base_port}}",
+              "path": [
+                "api",
+                "restaurants",
+                "restaurants",
+                "{{restaurant_id}}"
+              ]
+            }
+          },
+          "response": []
+        }
+      ]
+    },
+    {
+      "name": "Branches",
+      "item": [
+        {
+          "name": "List Branches",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{base_url}}/api/restaurants/branches/",
+              "protocol": "{{base_protocol}}",
+              "host": [
+                "{{base_host}}"
+              ],
+              "port": "{{base_port}}",
+              "path": [
+                "api",
+                "restaurants",
+                "branches"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Create Branch",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "url": {
+              "raw": "{{base_url}}/api/restaurants/branches/",
+              "protocol": "{{base_protocol}}",
+              "host": [
+                "{{base_host}}"
+              ],
+              "port": "{{base_port}}",
+              "path": [
+                "api",
+                "restaurants",
+                "branches"
+              ]
+            },
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"restaurant\": \"{{restaurant_id}}\",\n  \"name\": \"Main Branch\",\n  \"location\": \"Amman\",\n  \"is_active\": true\n}"
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Retrieve Branch",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{base_url}}/api/restaurants/branches/{{branch_id}}/",
+              "protocol": "{{base_protocol}}",
+              "host": [
+                "{{base_host}}"
+              ],
+              "port": "{{base_port}}",
+              "path": [
+                "api",
+                "restaurants",
+                "branches",
+                "{{branch_id}}"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Update Branch",
+          "request": {
+            "method": "PATCH",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "url": {
+              "raw": "{{base_url}}/api/restaurants/branches/{{branch_id}}/",
+              "protocol": "{{base_protocol}}",
+              "host": [
+                "{{base_host}}"
+              ],
+              "port": "{{base_port}}",
+              "path": [
+                "api",
+                "restaurants",
+                "branches",
+                "{{branch_id}}"
+              ]
+            },
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"name\": \"Main Branch Updated\"\n}"
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Delete Branch",
+          "request": {
+            "method": "DELETE",
+            "header": [],
+            "url": {
+              "raw": "{{base_url}}/api/restaurants/branches/{{branch_id}}/",
+              "protocol": "{{base_protocol}}",
+              "host": [
+                "{{base_host}}"
+              ],
+              "port": "{{base_port}}",
+              "path": [
+                "api",
+                "restaurants",
+                "branches",
+                "{{branch_id}}"
+              ]
+            }
+          },
+          "response": []
+        }
+      ]
+    },
+    {
+      "name": "Tables",
+      "item": [
+        {
+          "name": "List Tables",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{base_url}}/api/restaurants/tables/",
+              "protocol": "{{base_protocol}}",
+              "host": [
+                "{{base_host}}"
+              ],
+              "port": "{{base_port}}",
+              "path": [
+                "api",
+                "restaurants",
+                "tables"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Create Table",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "url": {
+              "raw": "{{base_url}}/api/restaurants/tables/",
+              "protocol": "{{base_protocol}}",
+              "host": [
+                "{{base_host}}"
+              ],
+              "port": "{{base_port}}",
+              "path": [
+                "api",
+                "restaurants",
+                "tables"
+              ]
+            },
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"branch\": \"{{branch_id}}\",\n  \"number\": 10,\n  \"seats\": 4\n}"
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Retrieve Table",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{base_url}}/api/restaurants/tables/{{table_id}}/",
+              "protocol": "{{base_protocol}}",
+              "host": [
+                "{{base_host}}"
+              ],
+              "port": "{{base_port}}",
+              "path": [
+                "api",
+                "restaurants",
+                "tables",
+                "{{table_id}}"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Update Table",
+          "request": {
+            "method": "PATCH",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "url": {
+              "raw": "{{base_url}}/api/restaurants/tables/{{table_id}}/",
+              "protocol": "{{base_protocol}}",
+              "host": [
+                "{{base_host}}"
+              ],
+              "port": "{{base_port}}",
+              "path": [
+                "api",
+                "restaurants",
+                "tables",
+                "{{table_id}}"
+              ]
+            },
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"seats\": 6\n}"
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Delete Table",
+          "request": {
+            "method": "DELETE",
+            "header": [],
+            "url": {
+              "raw": "{{base_url}}/api/restaurants/tables/{{table_id}}/",
+              "protocol": "{{base_protocol}}",
+              "host": [
+                "{{base_host}}"
+              ],
+              "port": "{{base_port}}",
+              "path": [
+                "api",
+                "restaurants",
+                "tables",
+                "{{table_id}}"
+              ]
+            }
+          },
+          "response": []
+        }
+      ]
+    },
+    {
+      "name": "Kitchens",
+      "item": [
+        {
+          "name": "List Kitchens",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{base_url}}/api/kitchens/kitchens/",
+              "protocol": "{{base_protocol}}",
+              "host": [
+                "{{base_host}}"
+              ],
+              "port": "{{base_port}}",
+              "path": [
+                "api",
+                "kitchens",
+                "kitchens"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Create Kitchen",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "url": {
+              "raw": "{{base_url}}/api/kitchens/kitchens/",
+              "protocol": "{{base_protocol}}",
+              "host": [
+                "{{base_host}}"
+              ],
+              "port": "{{base_port}}",
+              "path": [
+                "api",
+                "kitchens",
+                "kitchens"
+              ]
+            },
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"name\": \"Hot Kitchen\",\n  \"branch\": \"{{branch_id}}\"\n}"
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Retrieve Kitchen",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{base_url}}/api/kitchens/kitchens/{{kitchen_id}}/",
+              "protocol": "{{base_protocol}}",
+              "host": [
+                "{{base_host}}"
+              ],
+              "port": "{{base_port}}",
+              "path": [
+                "api",
+                "kitchens",
+                "kitchens",
+                "{{kitchen_id}}"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Update Kitchen",
+          "request": {
+            "method": "PATCH",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "url": {
+              "raw": "{{base_url}}/api/kitchens/kitchens/{{kitchen_id}}/",
+              "protocol": "{{base_protocol}}",
+              "host": [
+                "{{base_host}}"
+              ],
+              "port": "{{base_port}}",
+              "path": [
+                "api",
+                "kitchens",
+                "kitchens",
+                "{{kitchen_id}}"
+              ]
+            },
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"name\": \"Hot Kitchen Updated\"\n}"
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Delete Kitchen",
+          "request": {
+            "method": "DELETE",
+            "header": [],
+            "url": {
+              "raw": "{{base_url}}/api/kitchens/kitchens/{{kitchen_id}}/",
+              "protocol": "{{base_protocol}}",
+              "host": [
+                "{{base_host}}"
+              ],
+              "port": "{{base_port}}",
+              "path": [
+                "api",
+                "kitchens",
+                "kitchens",
+                "{{kitchen_id}}"
+              ]
+            }
+          },
+          "response": []
+        }
+      ]
+    },
+    {
+      "name": "Categories",
+      "item": [
+        {
+          "name": "List Categories",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{base_url}}/api/menu/categories/",
+              "protocol": "{{base_protocol}}",
+              "host": [
+                "{{base_host}}"
+              ],
+              "port": "{{base_port}}",
+              "path": [
+                "api",
+                "menu",
+                "categories"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Create Category",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "url": {
+              "raw": "{{base_url}}/api/menu/categories/",
+              "protocol": "{{base_protocol}}",
+              "host": [
+                "{{base_host}}"
+              ],
+              "port": "{{base_port}}",
+              "path": [
+                "api",
+                "menu",
+                "categories"
+              ]
+            },
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"name\": \"Appetizers\",\n  \"kitchen\": \"{{kitchen_id}}\"\n}"
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Retrieve Category",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{base_url}}/api/menu/categories/{{category_id}}/",
+              "protocol": "{{base_protocol}}",
+              "host": [
+                "{{base_host}}"
+              ],
+              "port": "{{base_port}}",
+              "path": [
+                "api",
+                "menu",
+                "categories",
+                "{{category_id}}"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Update Category",
+          "request": {
+            "method": "PATCH",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "url": {
+              "raw": "{{base_url}}/api/menu/categories/{{category_id}}/",
+              "protocol": "{{base_protocol}}",
+              "host": [
+                "{{base_host}}"
+              ],
+              "port": "{{base_port}}",
+              "path": [
+                "api",
+                "menu",
+                "categories",
+                "{{category_id}}"
+              ]
+            },
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"name\": \"Starters\"\n}"
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Delete Category",
+          "request": {
+            "method": "DELETE",
+            "header": [],
+            "url": {
+              "raw": "{{base_url}}/api/menu/categories/{{category_id}}/",
+              "protocol": "{{base_protocol}}",
+              "host": [
+                "{{base_host}}"
+              ],
+              "port": "{{base_port}}",
+              "path": [
+                "api",
+                "menu",
+                "categories",
+                "{{category_id}}"
+              ]
+            }
+          },
+          "response": []
+        }
+      ]
+    },
+    {
+      "name": "Items",
+      "item": [
+        {
+          "name": "List Items",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{base_url}}/api/menu/items/",
+              "protocol": "{{base_protocol}}",
+              "host": [
+                "{{base_host}}"
+              ],
+              "port": "{{base_port}}",
+              "path": [
+                "api",
+                "menu",
+                "items"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Create Item",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "url": {
+              "raw": "{{base_url}}/api/menu/items/",
+              "protocol": "{{base_protocol}}",
+              "host": [
+                "{{base_host}}"
+              ],
+              "port": "{{base_port}}",
+              "path": [
+                "api",
+                "menu",
+                "items"
+              ]
+            },
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"name\": \"Margherita Pizza\",\n  \"description\": \"Classic pizza\",\n  \"price\": \"8.50\",\n  \"available\": true,\n  \"category\": \"{{category_id}}\",\n  \"kitchen\": \"{{kitchen_id}}\"\n}"
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Retrieve Item",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{base_url}}/api/menu/items/{{item_id}}/",
+              "protocol": "{{base_protocol}}",
+              "host": [
+                "{{base_host}}"
+              ],
+              "port": "{{base_port}}",
+              "path": [
+                "api",
+                "menu",
+                "items",
+                "{{item_id}}"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Update Item",
+          "request": {
+            "method": "PATCH",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "url": {
+              "raw": "{{base_url}}/api/menu/items/{{item_id}}/",
+              "protocol": "{{base_protocol}}",
+              "host": [
+                "{{base_host}}"
+              ],
+              "port": "{{base_port}}",
+              "path": [
+                "api",
+                "menu",
+                "items",
+                "{{item_id}}"
+              ]
+            },
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"price\": \"9.00\",\n  \"available\": false\n}"
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Delete Item",
+          "request": {
+            "method": "DELETE",
+            "header": [],
+            "url": {
+              "raw": "{{base_url}}/api/menu/items/{{item_id}}/",
+              "protocol": "{{base_protocol}}",
+              "host": [
+                "{{base_host}}"
+              ],
+              "port": "{{base_port}}",
+              "path": [
+                "api",
+                "menu",
+                "items",
+                "{{item_id}}"
+              ]
+            }
+          },
+          "response": []
+        }
+      ]
+    },
+    {
+      "name": "OrderSessions",
+      "item": [
+        {
+          "name": "List Sessions",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{base_url}}/api/orders/sessions/",
+              "protocol": "{{base_protocol}}",
+              "host": [
+                "{{base_host}}"
+              ],
+              "port": "{{base_port}}",
+              "path": [
+                "api",
+                "orders",
+                "sessions"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Create Session",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "url": {
+              "raw": "{{base_url}}/api/orders/sessions/",
+              "protocol": "{{base_protocol}}",
+              "host": [
+                "{{base_host}}"
+              ],
+              "port": "{{base_port}}",
+              "path": [
+                "api",
+                "orders",
+                "sessions"
+              ]
+            },
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"table\": \"{{table_id}}\"\n}"
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Retrieve Session",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{base_url}}/api/orders/sessions/{{session_id}}/",
+              "protocol": "{{base_protocol}}",
+              "host": [
+                "{{base_host}}"
+              ],
+              "port": "{{base_port}}",
+              "path": [
+                "api",
+                "orders",
+                "sessions",
+                "{{session_id}}"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Update Session",
+          "request": {
+            "method": "PATCH",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "url": {
+              "raw": "{{base_url}}/api/orders/sessions/{{session_id}}/",
+              "protocol": "{{base_protocol}}",
+              "host": [
+                "{{base_host}}"
+              ],
+              "port": "{{base_port}}",
+              "path": [
+                "api",
+                "orders",
+                "sessions",
+                "{{session_id}}"
+              ]
+            },
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"payment_status\": \"paid\"\n}"
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Delete Session",
+          "request": {
+            "method": "DELETE",
+            "header": [],
+            "url": {
+              "raw": "{{base_url}}/api/orders/sessions/{{session_id}}/",
+              "protocol": "{{base_protocol}}",
+              "host": [
+                "{{base_host}}"
+              ],
+              "port": "{{base_port}}",
+              "path": [
+                "api",
+                "orders",
+                "sessions",
+                "{{session_id}}"
+              ]
+            }
+          },
+          "response": []
+        }
+      ]
+    },
+    {
+      "name": "OrderItems",
+      "item": [
+        {
+          "name": "List Order Items",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{base_url}}/api/orders/items/",
+              "protocol": "{{base_protocol}}",
+              "host": [
+                "{{base_host}}"
+              ],
+              "port": "{{base_port}}",
+              "path": [
+                "api",
+                "orders",
+                "items"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Create Order Item (Authenticated)",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "url": {
+              "raw": "{{base_url}}/api/orders/items/",
+              "protocol": "{{base_protocol}}",
+              "host": [
+                "{{base_host}}"
+              ],
+              "port": "{{base_port}}",
+              "path": [
+                "api",
+                "orders",
+                "items"
+              ]
+            },
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"order_session\": \"{{session_id}}\",\n  \"item\": \"{{item_id}}\",\n  \"quantity\": 2,\n  \"notes\": \"No onion\"\n}"
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Create Order Item (Guest)",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "url": {
+              "raw": "{{base_url}}/api/orders/items/",
+              "protocol": "{{base_protocol}}",
+              "host": [
+                "{{base_host}}"
+              ],
+              "port": "{{base_port}}",
+              "path": [
+                "api",
+                "orders",
+                "items"
+              ]
+            },
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"order_session\": \"{{session_id}}\",\n  \"item\": \"{{item_id}}\",\n  \"quantity\": 1,\n  \"session_password\": \"123456\"\n}"
+            },
+            "auth": {
+              "type": "noauth"
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Retrieve Order Item",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{base_url}}/api/orders/items/{{order_item_id}}/",
+              "protocol": "{{base_protocol}}",
+              "host": [
+                "{{base_host}}"
+              ],
+              "port": "{{base_port}}",
+              "path": [
+                "api",
+                "orders",
+                "items",
+                "{{order_item_id}}"
+              ]
+            },
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"order_session\": \"{{session_id}}\",\n  \"item\": \"{{item_id}}\",\n  \"quantity\": 1,\n  \"session_password\": \"123456\"\n}"
+            },
+            "auth": {
+              "type": "noauth"
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Update Order Item",
+          "request": {
+            "method": "PATCH",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "url": {
+              "raw": "{{base_url}}/api/orders/items/{{order_item_id}}/",
+              "protocol": "{{base_protocol}}",
+              "host": [
+                "{{base_host}}"
+              ],
+              "port": "{{base_port}}",
+              "path": [
+                "api",
+                "orders",
+                "items",
+                "{{order_item_id}}"
+              ]
+            },
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"status\": \"preparing\"\n}"
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Delete Order Item",
+          "request": {
+            "method": "DELETE",
+            "header": [],
+            "url": {
+              "raw": "{{base_url}}/api/orders/items/{{order_item_id}}/",
+              "protocol": "{{base_protocol}}",
+              "host": [
+                "{{base_host}}"
+              ],
+              "port": "{{base_port}}",
+              "path": [
+                "api",
+                "orders",
+                "items",
+                "{{order_item_id}}"
+              ]
+            }
+          },
+          "response": []
+        }
+      ]
+    }
+  ]
+}

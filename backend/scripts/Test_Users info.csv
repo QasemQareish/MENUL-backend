@@ -1,0 +1,29 @@
+username,role,email,restaurant,branch,kitchen,password
+superadmin_user,superadmin,superadmin@example.com,,,0000
+admin_user,admin,admin@example.com,,,0000
+owner_user_1,owner,owner1@example.com,Test Restaurant 1,,0000
+owner_user_2,owner,owner2@example.com,Test Restaurant 2,,0000
+branch_manager_b1,branch_manager,branch_manager_b1@example.com,Test Restaurant 1,1,,0000
+branch_manager_b2,branch_manager,branch_manager_b2@example.com,Test Restaurant 1,2,,0000
+branch_manager_b3,branch_manager,branch_manager_b3@example.com,Test Restaurant 2,3,,0000
+branch_manager_b4,branch_manager,branch_manager_b4@example.com,Test Restaurant 2,4,,0000
+waiter_branch_b1,waiter,waiter_branch_b1@example.com,Test Restaurant 1,1,,0000
+waiter_branch_b2,waiter,waiter_branch_b2@example.com,Test Restaurant 1,2,,0000
+waiter_branch_b3,waiter,waiter_branch_b3@example.com,Test Restaurant 2,3,,0000
+waiter_branch_b4,waiter,waiter_branch_b4@example.com,Test Restaurant 2,4,,0000
+waiter_kitchen_b1,waiter,waiter_kitchen_b1@example.com,Test Restaurant 1,,Kitchen 1,0000
+waiter_kitchen_b2,waiter,waiter_kitchen_b2@example.com,Test Restaurant 1,,Kitchen 2,0000
+waiter_kitchen_b3,waiter,waiter_kitchen_b3@example.com,Test Restaurant 2,,Kitchen 3,0000
+waiter_kitchen_b4,waiter,waiter_kitchen_b4@example.com,Test Restaurant 2,,Kitchen 4,0000
+kitchen_manager_k1,kitchen_manager,kitchen_manager_k1@example.com,Test Restaurant 1,1,Kitchen 1,0000
+chef_k1,chef,chef_k1@example.com,Test Restaurant 1,1,Kitchen 1,0000
+kitchen_manager_k2,kitchen_manager,kitchen_manager_k2@example.com,Test Restaurant 1,2,Kitchen 2,0000
+chef_k2,chef,chef_k2@example.com,Test Restaurant 1,2,Kitchen 2,0000
+kitchen_manager_k3,kitchen_manager,kitchen_manager_k3@example.com,Test Restaurant 2,3,Kitchen 3,0000
+chef_k3,chef,chef_k3@example.com,Test Restaurant 2,3,Kitchen 3,0000
+kitchen_manager_k4,kitchen_manager,kitchen_manager_k4@example.com,Test Restaurant 2,4,Kitchen 4,0000
+chef_k4,chef,chef_k4@example.com,Test Restaurant 2,4,Kitchen 4,0000
+customer_1,customer,customer_1@example.com,,,0000
+customer_2,customer,customer_2@example.com,,,0000
+customer_3,customer,customer_3@example.com,,,0000
+customer_4,customer,customer_4@example.com,,,0000
